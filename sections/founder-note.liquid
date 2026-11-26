@@ -1,0 +1,29 @@
+{%- comment -%} "Domaine Francoise Andre," note with signature (164:32007, 164:32008, 164:32006). {%- endcomment -%}
+<section class="founder-note">
+  <h2 class="display-heading founder-note__heading">{{ section.settings.heading | escape }}</h2>
+  {%- if section.settings.text != blank -%}
+    <div class="body-large founder-note__text">{{ section.settings.text }}</div>
+  {%- endif -%}
+  {%- if section.settings.signature != blank -%}
+    {{ section.settings.signature | image_url: width: 600 | image_tag: class: 'founder-note__signature', loading: 'lazy', alt: section.settings.signature.alt }}
+  {%- else -%}
+    <img class="founder-note__signature" src="{{ 'signature.png' | asset_url }}" alt="" width="1110" height="634" loading="lazy">
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Founder note",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "domaine francoise andre," },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Rosé et prosecco vitae bouquet, notes of citrus et minerality. Malbec fermentum varietal est, cuvée vinified with care. Nulla zinfandel fermentum, barrique aged, vel blandit cellar reserve.Rosé et prosecco vitae bouquet, notes of citrus et minerality. Malbec fermentum varietal est, cuvée vinified with care. Nulla zinfandel fermentum, barrique aged, vel blandit cellar reserve.</p>"
+    },
+    { "type": "image_picker", "id": "signature", "label": "Signature image", "info": "Leave empty to use the signature from the design." }
+  ],
+  "presets": [{ "name": "Founder note" }]
+}
+{% endschema %}

@@ -1,0 +1,28 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "AnnMarie",
+    "theme_version": "1.0.0",
+    "theme_author": "AnnMarie",
+    "theme_documentation_url": "https://shopify.dev/docs/storefronts/themes",
+    "theme_support_url": "https://help.shopify.com"
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "use_licensed_fonts",
+        "label": "Use licensed brand fonts",
+        "info": "Turn on after uploading OTJubilee-Diamond.woff2, NeueHaasDisplay-Light.woff2 and NeueHaasDisplay-Roman.woff2 in Content > Files.",
+        "default": false
+      }
+    ]
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      { "type": "image_picker", "id": "favicon", "label": "Favicon image", "info": "32 × 32px .png recommended" }
+    ]
+  }
+]

@@ -1,0 +1,35 @@
+{%- comment -%}
+  One wine = one card (Figma card 164:31837). Everything comes from the Shopify product.
+  Usage: {% render 'product-card', product: product %}
+{%- endcomment -%}
+{%- liquid
+  assign card_option = product.options_with_values | where: 'name', 'Format' | first
+  if card_option == blank
+    assign card_option = product.options_with_values | first
+  endif
+-%}
+<a class="product-card" href="{{ product.url }}">
+  <span class="product-card__title">{{ product.title | escape }}</span>
+  <span class="product-card__price">{{ product.price_min | money }}</span>
+
+  <span class="product-card__media">
+    {%- if product.featured_media != blank -%}
+      {{
+        product.featured_media
+        | image_url: width: 700
+        | image_tag: sizes: '(min-width: 1200px) 20vw, (min-width: 990px) 25vw, (min-width: 750px) 33vw, 50vw', widths: '300, 450, 600, 700', loading: 'lazy', alt: product.title
+      }}
+    {%- else -%}
+      <img src="{{ 'bottle-cutout.png' | asset_url }}" alt="" width="408" height="612" loading="lazy">
+    {%- endif -%}
+  </span>
+
+  {%- if product.has_only_default_variant == false and card_option != blank -%}
+    <span class="product-card__options">
+      {%- for value in card_option.values -%}
+        <span class="product-card__option">{{ value | escape }}{% unless forloop.last %},{% endunless %}</span>
+        {%- unless forloop.last %} {% endunless -%}
+      {%- endfor -%}
+    </span>
+  {%- endif -%}
+</a>

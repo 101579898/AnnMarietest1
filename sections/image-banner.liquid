@@ -1,0 +1,37 @@
+{%- comment -%} "AnnMarie Wines — A global journey." banner (164:31870). {%- endcomment -%}
+<section class="image-banner" style="--overlay: {{ section.settings.overlay | divided_by: 100.0 }};">
+  {%- if section.settings.image != blank -%}
+    {{
+      section.settings.image
+      | image_url: width: 2800
+      | image_tag: class: 'image-banner__image', sizes: '100vw', widths: '750, 1100, 1500, 2000, 2800', loading: 'lazy', alt: section.settings.image.alt
+    }}
+  {%- else -%}
+    <img class="image-banner__image image-banner__image--figma-crop" src="{{ 'landscape.png' | asset_url }}" alt="" width="2000" height="1600" loading="lazy">
+  {%- endif -%}
+  <div class="image-banner__overlay"></div>
+
+  <div class="image-banner__content">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="image-banner__heading">{{ section.settings.heading | newline_to_br }}</h2>
+    {%- endif -%}
+    {%- if section.settings.button_label != blank -%}
+      <a class="button image-banner__button" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label | escape }}</a>
+    {%- endif -%}
+  </div>
+</section>
+<div class="section-spacer"></div>
+
+{% schema %}
+{
+  "name": "Image banner",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image", "info": "Leave empty to use the image from the design." },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "AnnMarie Wines\nA global Journey." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "LEARN MORE" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "range", "id": "overlay", "label": "Image darkening", "min": 0, "max": 60, "step": 2, "unit": "%", "default": 0 }
+  ],
+  "presets": [{ "name": "Image banner" }]
+}
+{% endschema %}

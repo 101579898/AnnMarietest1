@@ -1,0 +1,82 @@
+{%- comment -%}
+  Product grid for a collection (Figma "Shop-All" row + cards, 164:31837–164:31869).
+  Every product in the collection gets its own card.
+{%- endcomment -%}
+{%- paginate collection.products by section.settings.per_page -%}
+  <section class="collection" id="ProductGrid">
+    <div class="collection__bar">
+      <h1 class="collection__title">{% if collection.handle == 'all' %}{{ 'collections.shop_all' | t }}{% else %}{{ collection.title | escape }}{% endif %}</h1>
+      <span class="collection__count">{{ 'collections.items' | t: count: collection.products_count }}</span>
+
+      {%- if section.settings.enable_filtering and collection.filters != empty -%}
+        <details class="collection__filter">
+          <summary>{{ 'collections.filter' | t }}</summary>
+          <form class="collection__filter-panel" method="get" action="{{ collection.url }}">
+            {%- if collection.sort_by != blank -%}
+              <input type="hidden" name="sort_by" value="{{ collection.sort_by }}">
+            {%- endif -%}
+            {%- for filter in collection.filters -%}
+              <div class="collection__filter-group">
+                <p class="collection__filter-title">{{ filter.label | escape }}</p>
+                {%- case filter.type -%}
+                  {%- when 'list', 'boolean' -%}
+                    {%- for value in filter.values -%}
+                      <label class="collection__filter-option">
+                        <input
+                          type="checkbox"
+                          name="{{ value.param_name }}"
+                          value="{{ value.value }}"
+                          {% if value.active %}checked{% endif %}
+                          {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                        >
+                        {{ value.label | escape }} ({{ value.count }})
+                      </label>
+                    {%- endfor -%}
+                  {%- when 'price_range' -%}
+                    <label class="collection__filter-option">
+                      {{ cart.currency.symbol }}
+                      <input type="number" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value | money_without_currency | remove: ',' }}" placeholder="0" min="0" style="width:70px">
+                      &ndash;
+                      <input type="number" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value | money_without_currency | remove: ',' }}" placeholder="{{ filter.range_max | money_without_currency | remove: ',' }}" min="0" style="width:70px">
+                    </label>
+                {%- endcase -%}
+              </div>
+            {%- endfor -%}
+            <div class="collection__filter-actions">
+              <button class="button button--ui" type="submit">{{ 'collections.apply' | t }}</button>
+              <a href="{{ collection.url }}{% if collection.sort_by != blank %}?sort_by={{ collection.sort_by }}{% endif %}">{{ 'collections.clear' | t }}</a>
+            </div>
+          </form>
+        </details>
+      {%- endif -%}
+    </div>
+
+    {%- if collection.products.size > 0 -%}
+      <ul class="product-grid" role="list">
+        {%- for product in collection.products -%}
+          <li>{% render 'product-card', product: product %}</li>
+        {%- endfor -%}
+      </ul>
+    {%- else -%}
+      <p class="collection__empty">{{ 'collections.empty' | t }}</p>
+    {%- endif -%}
+
+    {%- if paginate.pages > 1 -%}
+      <nav class="collection__pagination" aria-label="{{ 'collections.pagination' | t }}">
+        {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">&larr; {{ 'collections.previous' | t }}</a>{%- endif -%}
+        <span>{{ paginate.current_page }} / {{ paginate.pages }}</span>
+        {%- if paginate.next -%}<a href="{{ paginate.next.url }}">{{ 'collections.next' | t }} &rarr;</a>{%- endif -%}
+      </nav>
+    {%- endif -%}
+  </section>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Product grid",
+  "settings": [
+    { "type": "range", "id": "per_page", "label": "Products per page", "min": 5, "max": 50, "step": 5, "default": 20 },
+    { "type": "checkbox", "id": "enable_filtering", "label": "Show filter", "default": true, "info": "Set up filters with the Shopify Search & Discovery app." }
+  ]
+}
+{% endschema %}

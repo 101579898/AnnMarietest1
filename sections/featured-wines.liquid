@@ -1,0 +1,63 @@
+{%- comment -%}
+  Featured wines carousel at the top of the Shop page (164:31827–164:31836).
+  Each block is ONE wine product: its photo, name and link come from Shopify,
+  so every bottle stays its own product instead of being grouped into one image.
+{%- endcomment -%}
+<section class="featured-wines" data-featured-wines>
+  <div class="featured-wines__track" data-track>
+    {%- for block in section.blocks -%}
+      {%- assign product = block.settings.product -%}
+      <div class="featured-wines__slide{% if forloop.index == 2 or section.blocks.size == 1 %} is-active{% endif %}" data-slide {{ block.shopify_attributes }}>
+        <a class="featured-wines__media" href="{% if product != blank %}{{ product.url }}{% else %}{{ routes.all_products_collection_url }}{% endif %}" tabindex="-1">
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 1400 | image_tag: sizes: '(min-width: 990px) 46vw, 84vw', widths: '600, 900, 1200, 1400', loading: 'lazy', alt: block.settings.image.alt }}
+          {%- elsif product.featured_media != blank -%}
+            {{ product.featured_media | image_url: width: 1400 | image_tag: sizes: '(min-width: 990px) 46vw, 84vw', widths: '600, 900, 1200, 1400', loading: 'lazy', alt: product.title }}
+          {%- else -%}
+            <img src="{{ 'bottle-front.png' | asset_url }}" alt="" width="1533" height="2300" loading="lazy">
+          {%- endif -%}
+        </a>
+        <div class="featured-wines__caption">
+          <p class="featured-wines__name">
+            {%- if product != blank -%}
+              <a href="{{ product.url }}">{{ product.title | escape }}</a>
+            {%- else -%}
+              {{ block.settings.fallback_name | escape }}
+            {%- endif -%}
+          </p>
+          <p class="featured-wines__tagline">{{ block.settings.tagline | newline_to_br }}</p>
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured wines",
+  "max_blocks": 8,
+  "blocks": [
+    {
+      "type": "wine",
+      "name": "Wine",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" },
+        {
+          "type": "textarea",
+          "id": "tagline",
+          "label": "Tagline",
+          "default": "Reclaim slowness —\nwith scent, taste, lineage."
+        },
+        { "type": "image_picker", "id": "image", "label": "Image override", "info": "Defaults to the product's main photo." },
+        { "type": "text", "id": "fallback_name", "label": "Name when no product is picked", "default": "Tue-Boeuf" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured wines",
+      "blocks": [{ "type": "wine" }, { "type": "wine" }, { "type": "wine" }]
+    }
+  ]
+}
+{% endschema %}

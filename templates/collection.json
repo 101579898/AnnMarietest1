@@ -1,0 +1,24 @@
+{
+  "sections": {
+    "featured": {
+      "type": "featured-wines",
+      "blocks": {
+        "wine-1": { "type": "wine", "settings": { "tagline": "Reclaim slowness —\nwith scent, taste, lineage.", "fallback_name": "Tue-Boeuf" } },
+        "wine-2": { "type": "wine", "settings": { "tagline": "Reclaim slowness —\nwith scent, taste, lineage.", "fallback_name": "Tue-Boeuf" } },
+        "wine-3": { "type": "wine", "settings": { "tagline": "Reclaim slowness —\nwith scent, taste, lineage.", "fallback_name": "Tue-Boeuf" } }
+      },
+      "block_order": ["wine-1", "wine-2", "wine-3"]
+    },
+    "grid": { "type": "main-collection", "settings": { "per_page": 20, "enable_filtering": true } },
+    "banner": {
+      "type": "image-banner",
+      "settings": {
+        "heading": "AnnMarie Wines\nA global Journey.",
+        "button_label": "LEARN MORE",
+        "button_link": "/pages/household",
+        "overlay": 0
+      }
+    }
+  },
+  "order": ["featured", "grid", "banner"]
+}

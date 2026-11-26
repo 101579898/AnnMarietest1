@@ -1,0 +1,10 @@
+{
+  "current": {
+    "use_licensed_fonts": false
+  },
+  "presets": {
+    "Default": {
+      "use_licensed_fonts": false
+    }
+  }
+}

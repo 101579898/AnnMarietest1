@@ -1,0 +1,50 @@
+<section class="cart">
+  <h1 class="display-heading page-title">{{ 'cart.title' | t }}</h1>
+
+  {%- if cart.item_count > 0 -%}
+    <form action="{{ routes.cart_url }}" method="post" novalidate>
+      <ul class="cart__items" role="list">
+        {%- for item in cart.items -%}
+          <li class="cart-item">
+            <a class="cart-item__media" href="{{ item.url }}">
+              {%- if item.image -%}
+                {{ item.image | image_url: width: 240 | image_tag: loading: 'lazy', alt: item.product.title }}
+              {%- endif -%}
+            </a>
+            <div>
+              <a class="cart-item__title" href="{{ item.url }}">{{ item.product.title | escape }}</a>
+              {%- unless item.product.has_only_default_variant -%}
+                <p class="cart-item__variant">{{ item.variant.title | escape }}</p>
+              {%- endunless -%}
+              <a class="cart-item__remove" href="{{ item.url_to_remove }}">{{ 'cart.remove' | t }}</a>
+            </div>
+            <div class="cart-item__qty qty">
+              <button type="button" class="qty__btn qty__btn--minus" data-qty="-1" aria-label="{{ 'products.decrease' | t }}"></button>
+              <input class="qty__input" type="number" name="updates[]" value="{{ item.quantity }}" min="0" aria-label="{{ 'products.quantity' | t }}">
+              <button type="button" class="qty__btn qty__btn--plus" data-qty="1" aria-label="{{ 'products.increase' | t }}"></button>
+            </div>
+            <p class="cart-item__total">{{ item.final_line_price | money }}</p>
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      <div class="cart__footer">
+        <p class="cart__subtotal">{{ 'cart.subtotal' | t }}: {{ cart.total_price | money_with_currency }}</p>
+        <p class="cart__note">{{ 'cart.taxes_note' | t }}</p>
+        <div style="display:flex;gap:8px">
+          <button class="button button--ui button--dark" type="submit" name="update">{{ 'cart.update' | t }}</button>
+          <button class="button button--ui" type="submit" name="checkout">{{ 'cart.checkout' | t }}</button>
+        </div>
+      </div>
+    </form>
+  {%- else -%}
+    <div class="cart__empty">
+      <p>{{ 'cart.empty' | t }}</p>
+      <a class="button" href="{{ routes.all_products_collection_url }}">{{ 'cart.continue' | t }}</a>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{ "name": "Cart" }
+{% endschema %}

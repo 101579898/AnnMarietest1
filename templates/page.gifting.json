@@ -1,0 +1,8 @@
+{
+  "sections": {
+    "hero": { "type": "gifting-hero" },
+    "intro": { "type": "gifting-intro", "settings": { "show_icons": true } },
+    "form": { "type": "gift-form" }
+  },
+  "order": ["hero", "intro", "form"]
+}

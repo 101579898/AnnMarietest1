@@ -1,0 +1,38 @@
+{%- comment -%} Three portrait photos in a row (164:32010). {%- endcomment -%}
+<section class="photo-trio">
+  {%- for block in section.blocks -%}
+    <div class="photo-trio__item" {{ block.shopify_attributes }}>
+      {%- if block.settings.image != blank -%}
+        {{ block.settings.image | image_url: width: 1000 | image_tag: sizes: '(min-width: 750px) 33vw, 100vw', widths: '500, 750, 1000', loading: 'lazy', alt: block.settings.image.alt }}
+      {%- else -%}
+        {%- case forloop.index -%}
+          {%- when 1 -%}
+            <img src="{{ 'household-photo-1.jpg' | asset_url }}" alt="" width="2580" height="3845" loading="lazy">
+          {%- when 2 -%}
+            <img src="{{ 'household-photo-2.jpg' | asset_url }}" alt="" width="1242" height="816" loading="lazy">
+          {%- else -%}
+            <img class="photo-trio__img--figma-crop-3" src="{{ 'household-photo-3.jpg' | asset_url }}" alt="" width="721" height="900" loading="lazy">
+        {%- endcase -%}
+      {%- endif -%}
+    </div>
+  {%- endfor -%}
+</section>
+
+{% schema %}
+{
+  "name": "Photo trio",
+  "max_blocks": 3,
+  "blocks": [
+    {
+      "type": "photo",
+      "name": "Photo",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image", "info": "Leave empty to use the image from the design." }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Photo trio", "blocks": [{ "type": "photo" }, { "type": "photo" }, { "type": "photo" }] }
+  ]
+}
+{% endschema %}

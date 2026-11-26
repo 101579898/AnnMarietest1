@@ -1,0 +1,42 @@
+{%- comment -%} Home hero — Figma "image 187" with the dotted monogram overlay (164:31560, 164:31583). {%- endcomment -%}
+<section class="home-hero" style="--overlay: {{ section.settings.overlay | divided_by: 100.0 }};">
+  {%- if section.settings.image != blank -%}
+    {{
+      section.settings.image
+      | image_url: width: 2800
+      | image_tag:
+        class: 'home-hero__image',
+        sizes: '100vw',
+        widths: '750, 1100, 1500, 2000, 2800',
+        loading: 'eager',
+        fetchpriority: 'high',
+        alt: section.settings.image.alt
+    }}
+  {%- else -%}
+    <img class="home-hero__image" src="{{ 'home-hero.png' | asset_url }}" alt="" width="1398" height="760" fetchpriority="high">
+  {%- endif -%}
+  <div class="home-hero__overlay"></div>
+
+  {%- if section.settings.show_mark -%}
+    <div class="home-hero__mark">
+      <img src="{{ 'hero-monogram-dots.svg' | asset_url }}" alt="" width="474" height="596">
+    </div>
+  {%- endif -%}
+
+  {%- if section.settings.link != blank -%}
+    <a class="home-hero__link" href="{{ section.settings.link }}"><span class="visually-hidden">{{ shop.name }}</span></a>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Home hero",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image", "info": "Leave empty to use the image from the design." },
+    { "type": "checkbox", "id": "show_mark", "label": "Show dotted monogram", "default": true },
+    { "type": "range", "id": "overlay", "label": "Image darkening", "min": 0, "max": 60, "step": 2, "unit": "%", "default": 0 },
+    { "type": "url", "id": "link", "label": "Link" }
+  ],
+  "presets": [{ "name": "Home hero" }]
+}
+{% endschema %}

@@ -1,0 +1,39 @@
+{%- comment -%}
+  Brand fonts from the Figma design:
+    - Display / headings: "OT Jubilee" (Diamond)
+    - Body / UI:          "Neue Haas Grotesk Display Pro" (45 Light, 55 Roman)
+
+  Both are commercial fonts, so they are not bundled. When you have the web licence:
+    1. Upload the .woff2 files in Shopify admin > Content > Files, using the exact names below.
+    2. Theme settings > Typography > tick "Use licensed brand fonts".
+  Until then the theme falls back to Cormorant Garamond + Helvetica Neue, which sit close to the design.
+{%- endcomment -%}
+{%- if settings.use_licensed_fonts -%}
+  <style>
+    @font-face {
+      font-family: 'OT Jubilee';
+      src: url('{{ 'OTJubilee-Diamond.woff2' | file_url }}') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Neue Haas Grotesk Display Pro';
+      src: url('{{ 'NeueHaasDisplay-Light.woff2' | file_url }}') format('woff2');
+      font-weight: 300;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Neue Haas Grotesk Display Pro';
+      src: url('{{ 'NeueHaasDisplay-Roman.woff2' | file_url }}') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+{%- else -%}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet">
+{%- endif -%}

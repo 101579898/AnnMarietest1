@@ -1,0 +1,18 @@
+{%- comment -%} Wide image at the top of the Gifting page (image 192, 164:32073). {%- endcomment -%}
+<section class="gifting-hero">
+  {%- if section.settings.image != blank -%}
+    {{ section.settings.image | image_url: width: 2800 | image_tag: sizes: '100vw', widths: '750, 1100, 1500, 2000, 2800', loading: 'eager', alt: section.settings.image.alt }}
+  {%- else -%}
+    <img src="{{ 'gifting-hero.png' | asset_url }}" alt="" width="1395" height="438">
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Wide image",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image", "info": "Leave empty to use the image from the design." }
+  ],
+  "presets": [{ "name": "Wide image" }]
+}
+{% endschema %}

@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "hero": { "type": "home-hero", "settings": { "show_mark": true, "overlay": 0 } },
+    "tiles": {
+      "type": "home-tiles",
+      "blocks": {
+        "shop": { "type": "tile", "settings": { "label": "Shop", "link": "shopify://collections/all", "overlay": 10 } },
+        "household": { "type": "tile", "settings": { "label": "Household", "link": "/pages/household", "overlay": 10 } }
+      },
+      "block_order": ["shop", "household"]
+    }
+  },
+  "order": ["hero", "tiles"]
+}

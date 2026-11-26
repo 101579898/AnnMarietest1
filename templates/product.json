@@ -1,0 +1,6 @@
+{
+  "sections": {
+    "main": { "type": "main-product", "settings": { "size_option_name": "Size", "format_option_name": "Format", "quote_author": "AnnMarie" } }
+  },
+  "order": ["main"]
+}

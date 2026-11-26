@@ -1,0 +1,11 @@
+{%- comment -%}
+  The AnnMarie monogram, built from the four outline layers exported from Figma
+  (header logo, node 164:31579–164:31582). Layers are positioned exactly as in the design.
+  Usage: {% render 'logo-mark', class: 'header__logo-mark' %}
+{%- endcomment -%}
+<span class="logo-mark {{ class }}" aria-hidden="true">
+  <img class="logo-mark__layer logo-mark__layer--1" src="{{ 'logo-1.svg' | asset_url }}" alt="" width="86" height="106">
+  <img class="logo-mark__layer logo-mark__layer--2" src="{{ 'logo-2.svg' | asset_url }}" alt="" width="79" height="99">
+  <img class="logo-mark__layer logo-mark__layer--3" src="{{ 'logo-3.svg' | asset_url }}" alt="" width="67" height="88">
+  <img class="logo-mark__layer logo-mark__layer--4" src="{{ 'logo-4.svg' | asset_url }}" alt="" width="68" height="57">
+</span>

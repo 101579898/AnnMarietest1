@@ -1,0 +1,57 @@
+{%- comment -%}
+  "Your Gift Details" form (164:32090–164:32104).
+  Uses Shopify's built-in contact form: submissions are emailed to the store's sender email.
+{%- endcomment -%}
+<section class="gift-form" id="gift-request">
+  <h2 class="display-heading gift-form__heading">{{ section.settings.heading | escape }}</h2>
+
+  {%- form 'contact', id: 'GiftRequestForm' -%}
+    <input type="hidden" name="contact[form]" value="Corporate gifting request">
+
+    {%- if form.posted_successfully? -%}
+      <p class="gift-form__message" role="status">{{ section.settings.success_message | escape }}</p>
+    {%- elsif form.errors -%}
+      <div class="gift-form__errors" role="alert">{{ form.errors | default_errors }}</div>
+    {%- endif -%}
+
+    <div class="gift-form__grid">
+      <label class="gift-form__field gift-form__field--first">
+        <span class="gift-form__label">{{ 'gifting.first_name' | t }}*</span>
+        <input class="gift-form__input" type="text" name="contact[first_name]" autocomplete="given-name" required>
+      </label>
+      <label class="gift-form__field gift-form__field--last">
+        <span class="gift-form__label">{{ 'gifting.last_name' | t }}*</span>
+        <input class="gift-form__input" type="text" name="contact[last_name]" autocomplete="family-name" required>
+      </label>
+      <label class="gift-form__field">
+        <span class="gift-form__label">{{ 'gifting.email' | t }}*</span>
+        <input class="gift-form__input" type="email" name="contact[email]" autocomplete="email" required>
+      </label>
+      <label class="gift-form__field">
+        <span class="gift-form__label">{{ 'gifting.phone' | t }}*</span>
+        <input class="gift-form__input" type="tel" name="contact[phone]" autocomplete="tel" required>
+      </label>
+      <label class="gift-form__field">
+        <span class="gift-form__label">{{ 'gifting.company' | t }}</span>
+        <input class="gift-form__input" type="text" name="contact[company]" autocomplete="organization">
+      </label>
+      <label class="gift-form__field">
+        <span class="gift-form__label">{{ 'gifting.details' | t }}</span>
+        <textarea class="gift-form__input gift-form__textarea" name="contact[body]" rows="1"></textarea>
+      </label>
+    </div>
+
+    <button class="button button--ui button--dark gift-form__submit" type="submit">{{ 'gifting.submit' | t }}</button>
+  {%- endform -%}
+</section>
+
+{% schema %}
+{
+  "name": "Gift request form",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Your Gift Details" },
+    { "type": "text", "id": "success_message", "label": "Thank-you message", "default": "Thank you — we'll be in touch shortly to make something special." }
+  ],
+  "presets": [{ "name": "Gift request form" }]
+}
+{% endschema %}

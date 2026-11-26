@@ -1,0 +1,87 @@
+<footer class="footer" id="newsletter">
+  <div class="footer__top">
+    <div class="footer__newsletter">
+      <h2 class="footer__newsletter-title">{{ section.settings.newsletter_heading | escape }}</h2>
+      {%- form 'customer', id: 'FooterNewsletter', class: 'footer__newsletter-wrap' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <div class="footer__newsletter-form">
+          <label class="visually-hidden" for="FooterNewsletterEmail">{{ 'sections.footer.email' | t }}</label>
+          <input
+            id="FooterNewsletterEmail"
+            class="footer__newsletter-input"
+            type="email"
+            name="contact[email]"
+            placeholder="{{ 'sections.footer.email' | t }}"
+            autocomplete="email"
+            required
+          >
+          <button class="footer__newsletter-button" type="submit">{{ 'sections.footer.subscribe' | t }}</button>
+        </div>
+        {%- if form.posted_successfully? -%}
+          <p class="footer__newsletter-message" role="status">{{ 'sections.footer.subscribed' | t }}</p>
+        {%- elsif form.errors -%}
+          <p class="footer__newsletter-message" role="alert">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</p>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+
+    {%- for block in section.blocks -%}
+      <div class="footer__col" {{ block.shopify_attributes }}>
+        <p class="footer__col-label">{{ block.settings.heading | escape }}</p>
+        <div class="footer__col-body">
+          {%- case block.type -%}
+            {%- when 'menu' -%}
+              {%- if block.settings.menu != blank -%}
+                <ul class="footer__list">
+                  {%- for link in linklists[block.settings.menu].links -%}
+                    <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+            {%- when 'text' -%}
+              <div class="footer__text">{{ block.settings.text }}</div>
+          {%- endcase -%}
+          {%- if block.settings.show_copyright -%}
+            <p class="footer__copyright">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}</p>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+
+  <a class="footer__wordmark" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+    <img src="{{ 'wordmark-annmarie.svg' | asset_url }}" alt="" width="1384" height="231" loading="lazy">
+  </a>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "class": "section-footer",
+  "max_blocks": 4,
+  "settings": [
+    { "type": "text", "id": "newsletter_heading", "label": "Newsletter heading", "default": "Subscribe to the newsletter" }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Menu column",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Label", "default": "Menu" },
+        { "type": "link_list", "id": "menu", "label": "Menu" },
+        { "type": "checkbox", "id": "show_copyright", "label": "Show copyright under this column", "default": false }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text column",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Label", "default": "Office" },
+        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>2644 Evergreen Lane, CA</p>" },
+        { "type": "checkbox", "id": "show_copyright", "label": "Show copyright under this column", "default": false }
+      ]
+    }
+  ],
+  "enabled_on": { "groups": ["footer"] }
+}
+{% endschema %}

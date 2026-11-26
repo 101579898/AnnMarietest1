@@ -1,0 +1,142 @@
+{%- comment -%}
+  Wine product page (Figma "p2p", 164:31876).
+  - Left: all product photos stacked (scrolls).
+  - Right (sticky): name, size tabs (750mL / 1.5L), one buy box per variant
+    (e.g. "$85 / Bottle" and "$750 / 6 pack"), tasting notes, description, specs, quote.
+
+  Variants: give products a "Size" option (750mL, 1.5L) and a "Format" option (Bottle, 6 pack).
+  Option names can be changed in the section settings.
+
+  Wine details come from product metafields (namespace "custom"):
+    tasting_notes, vintage, soil, alcohol, ph, ta, quote
+{%- endcomment -%}
+{%- liquid
+  assign size_option = product.options_with_values | where: 'name', section.settings.size_option_name | first
+  assign format_option = product.options_with_values | where: 'name', section.settings.format_option_name | first
+  assign current_variant = product.selected_or_first_available_variant
+  if size_option != blank
+    assign size_index = size_option.position | minus: 1
+    assign current_size = current_variant.options[size_index]
+  endif
+  if format_option != blank
+    assign format_index = format_option.position | minus: 1
+  endif
+  assign m = product.metafields.custom
+-%}
+
+<section class="product" data-product>
+  <div class="product__gallery">
+    {%- for media in product.media -%}
+      <div class="product__media">
+        {%- if media.media_type == 'image' -%}
+          {%- liquid
+            assign loading = 'lazy'
+            if forloop.first
+              assign loading = 'eager'
+            endif
+          -%}
+          {{ media | image_url: width: 1400 | image_tag: sizes: '(min-width: 990px) 49vw, 88vw', widths: '600, 900, 1200, 1400', loading: loading, alt: media.alt | default: product.title }}
+        {%- else -%}
+          {{ media | media_tag: image_size: '1400x' }}
+        {%- endif -%}
+      </div>
+    {%- else -%}
+      <div class="product__media"><img src="{{ 'bottle-front.png' | asset_url }}" alt="" width="1533" height="2300"></div>
+      <div class="product__media"><img src="{{ 'sample-product-2.png' | asset_url }}" alt="" width="699" height="995" loading="lazy"></div>
+      <div class="product__media"><img src="{{ 'sample-product-3.png' | asset_url }}" alt="" width="699" height="995" loading="lazy"></div>
+    {%- endfor -%}
+  </div>
+
+  <div class="product__info">
+    <div class="product__head">
+      <h1 class="product__title">{{ product.title | escape }}</h1>
+      {%- if size_option != blank -%}
+        {%- for value in size_option.values -%}
+          <button
+            type="button"
+            class="product__size"
+            data-size-tab="{{ value | escape }}"
+            aria-pressed="{% if value == current_size %}true{% else %}false{% endif %}"
+          >
+            {{- value | escape -}}
+          </button>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    <div class="product__offers">
+      {%- for variant in product.variants -%}
+        {%- liquid
+          assign v_size = ''
+          if size_option != blank
+            assign v_size = variant.options[size_index]
+          endif
+          if format_option != blank
+            assign v_label = variant.options[format_index]
+          elsif product.has_only_default_variant
+            assign v_label = 'products.bottle' | t
+          else
+            assign v_label = variant.title
+          endif
+        -%}
+        <div class="product__offer" data-offer data-size="{{ v_size | escape }}" {% if size_option != blank and v_size != current_size %}hidden{% endif %}>
+          <p class="product__offer-price">{{ variant.price | money }} / {{ v_label | escape }}</p>
+          {%- form 'product', product, class: 'product__offer-form', data-add-form: '' -%}
+            <input type="hidden" name="id" value="{{ variant.id }}">
+            <div class="product__offer-row">
+              {%- if variant.available -%}
+                <div class="qty">
+                  <button type="button" class="qty__btn qty__btn--minus" data-qty="-1" aria-label="{{ 'products.decrease' | t }}"></button>
+                  <input class="qty__input" type="number" name="quantity" value="1" min="1" aria-label="{{ 'products.quantity' | t }}">
+                  <button type="button" class="qty__btn qty__btn--plus" data-qty="1" aria-label="{{ 'products.increase' | t }}"></button>
+                </div>
+                <button type="submit" class="button button--ui">{{ 'products.add_to_basket' | t }}</button>
+              {%- else -%}
+                <p class="product__sold-out">{{ 'products.sold_out' | t }}</p>
+              {%- endif -%}
+            </div>
+          {%- endform -%}
+        </div>
+      {%- endfor -%}
+    </div>
+    <p class="product__status" role="status" data-status data-added="{{ 'products.added' | t }}"></p>
+
+    <div class="product__details">
+      {%- if m.tasting_notes != blank -%}
+        <p class="product__notes">{{ m.tasting_notes | escape }}</p>
+      {%- endif -%}
+      {%- if product.description != blank -%}
+        <div class="product__description">{{ product.description }}</div>
+      {%- endif -%}
+
+      {%- if m.vintage != blank or m.soil != blank or m.alcohol != blank or m.ph != blank or m.ta != blank -%}
+        <ul class="product__specs">
+          {%- if m.vintage != blank %}<li>– {{ 'products.vintage' | t }}: {{ m.vintage }}</li>{% endif -%}
+          {%- if m.soil != blank %}<li>– {{ 'products.soil' | t }}: {{ m.soil }}</li>{% endif -%}
+          {%- if m.alcohol != blank %}<li>– {{ 'products.alcohol' | t }}: {{ m.alcohol }}</li>{% endif -%}
+          {%- if m.ph != blank %}<li>– pH: {{ m.ph }}</li>{% endif -%}
+          {%- if m.ta != blank %}<li>– TA: {{ m.ta }}</li>{% endif -%}
+        </ul>
+      {%- endif -%}
+
+      {%- if m.quote != blank -%}
+        <p class="product__quote">“{{ m.quote | escape }}”<br>- {{ section.settings.quote_author | escape }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json">
+  {{ product | structured_data }}
+</script>
+
+{% schema %}
+{
+  "name": "Product page",
+  "settings": [
+    { "type": "text", "id": "size_option_name", "label": "Size option name", "default": "Size", "info": "Shown as tabs next to the title (750mL / 1.5L)." },
+    { "type": "text", "id": "format_option_name", "label": "Format option name", "default": "Format", "info": "Shown after the price, e.g. \"$85 / Bottle\"." },
+    { "type": "text", "id": "quote_author", "label": "Quote signed as", "default": "AnnMarie" }
+  ]
+}
+{% endschema %}

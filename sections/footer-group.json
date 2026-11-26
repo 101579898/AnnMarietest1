@@ -1,0 +1,32 @@
+{
+  "type": "footer",
+  "name": "Footer group",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "menu": {
+          "type": "menu",
+          "settings": { "heading": "Menu", "menu": "footer" }
+        },
+        "socials": {
+          "type": "menu",
+          "settings": { "heading": "Socials", "menu": "socials" }
+        },
+        "office": {
+          "type": "text",
+          "settings": { "heading": "Office", "text": "<p>2644 Evergreen Lane,<br/>CA</p>" }
+        },
+        "legal": {
+          "type": "menu",
+          "settings": { "heading": "Legal", "menu": "legal", "show_copyright": true }
+        }
+      },
+      "block_order": ["menu", "socials", "office", "legal"],
+      "settings": {
+        "newsletter_heading": "Subscribe to the newsletter"
+      }
+    }
+  },
+  "order": ["footer"]
+}

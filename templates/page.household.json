@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "intro": { "type": "story-intro", "settings": { "show_mark": true } },
+    "photos": {
+      "type": "photo-trio",
+      "blocks": { "p1": { "type": "photo" }, "p2": { "type": "photo" }, "p3": { "type": "photo" } },
+      "block_order": ["p1", "p2", "p3"]
+    },
+    "note": { "type": "founder-note" }
+  },
+  "order": ["intro", "photos", "note"]
+}

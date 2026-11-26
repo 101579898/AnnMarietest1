@@ -1,0 +1,8 @@
+<section class="page-width">
+  <h1 class="display-heading page-title">{{ page.title | escape }}</h1>
+  <div class="rte" style="margin-top:40px">{{ page.content }}</div>
+</section>
+
+{% schema %}
+{ "name": "Page content" }
+{% endschema %}

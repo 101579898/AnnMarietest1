@@ -1,0 +1,72 @@
+{
+  "general": {
+    "404_title": "Page not found",
+    "404_text": "The page you were looking for doesn't exist."
+  },
+  "accessibility": {
+    "skip_to_content": "Skip to content"
+  },
+  "sections": {
+    "announcement": { "label": "Announcement" },
+    "header": { "menu": "Main menu", "cart": "Basket" },
+    "footer": {
+      "email": "Email",
+      "subscribe": "Subscribe",
+      "subscribed": "Thanks for subscribing."
+    }
+  },
+  "collections": {
+    "shop_all": "Shop-All",
+    "all_title": "Collections",
+    "items": {
+      "one": "{{ count }} item",
+      "other": "{{ count }} items"
+    },
+    "filter": "Filter",
+    "apply": "Apply",
+    "clear": "Clear",
+    "empty": "No wines here yet.",
+    "pagination": "Pagination",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "products": {
+    "from": "From",
+    "bottle": "Bottle",
+    "add_to_basket": "Add to basket",
+    "sold_out": "Sold out",
+    "quantity": "Quantity",
+    "increase": "Increase quantity",
+    "decrease": "Decrease quantity",
+    "added": "Added to your basket.",
+    "error": "Couldn't add to basket. Please try again.",
+    "vintage": "Vintage",
+    "soil": "Soil",
+    "alcohol": "Alc"
+  },
+  "cart": {
+    "title": "Your basket",
+    "remove": "Remove",
+    "subtotal": "Subtotal",
+    "taxes_note": "Taxes and shipping calculated at checkout.",
+    "update": "Update",
+    "checkout": "Check out",
+    "empty": "Your basket is empty.",
+    "continue": "Shop wines"
+  },
+  "search": {
+    "title": "Search",
+    "placeholder": "Search wines",
+    "submit": "Search",
+    "no_results": "No results for “{{ terms }}”."
+  },
+  "gifting": {
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "email": "Email",
+    "phone": "Phone Number",
+    "company": "Company",
+    "details": "Details",
+    "submit": "Submit request"
+  }
+}

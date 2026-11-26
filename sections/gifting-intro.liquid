@@ -1,0 +1,27 @@
+{%- comment -%} "Corporate Gifting" heading, copy and illustration (164:32089, 164:32071, 164:32074). {%- endcomment -%}
+<section class="gifting-intro">
+  <h1 class="display-heading">{{ section.settings.heading | escape }}</h1>
+  {%- if section.settings.text != blank -%}
+    <div class="body-large gifting-intro__text">{{ section.settings.text }}</div>
+  {%- endif -%}
+  {%- if section.settings.show_icons -%}
+    <img class="gifting-intro__icons" src="{{ 'gifting-icons.svg' | asset_url }}" alt="" width="296" height="93" loading="lazy">
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Gifting intro",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Corporate Gifting" },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>For gestures that linger.</p><p></p><p>Whether you're thanking a team, honoring a client, or sending warmth from afar—our wines say it beautifully. Thoughtfully crafted and wrapped with care, AnnMari bottles make moments feel intentional.</p><p>We offer personalized gifting with white-glove service—elevated, effortless, and always on time.</p><p></p><p>Let’s make something special.</p>"
+    },
+    { "type": "checkbox", "id": "show_icons", "label": "Show illustration", "default": true }
+  ],
+  "presets": [{ "name": "Gifting intro" }]
+}
+{% endschema %}
